@@ -1,4 +1,4 @@
-namespace TestRUN
+namespace CLDV_POE_P1
 {
     public class Program
     {

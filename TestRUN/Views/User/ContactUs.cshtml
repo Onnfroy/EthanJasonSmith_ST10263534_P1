@@ -1,0 +1,22 @@
+﻿@model CLDV6211_POE_P1.Models.UserTable
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<div style="text-align: center; padding: 20px; background-color: #F5F5DC;">
+    <h1>Contact KhumaloCraft</h1>
+    <p>Have a question or feedback? We'd love to hear what you have to say!</p>
+    <div style="max-width: 400px; margin: 0 auto;">
+        @using (Html.BeginForm("User", "User", FormMethod.Post))
+        {
+            <input type="text" asp-for="Name" placeholder="Enter your first name..." style="width:100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 3px; box-sizing: border-box;" required />
+            <input type="text" asp-for="Surname" placeholder="Enter your last name..." style="width:100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 3px; box-sizing: border-box;" required />
+            <input type="email" asp-for="Email" placeholder="Enter your email address..." style="width:100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 3px; box-sizing: border-box;" required />
+            <button type="submit" style="width: 100%; padding: 10px; background-color: grey; color: white; border: none; border-radius: 3px; cursor: pointer;">Submit</button>
+        }
+    </div>
+    <footer>
+        <p>Follow us on <a href="social-media-link">social-media-link</a></p>
+        <p>© All rights reserved.</p>
+    </footer>
+</div>

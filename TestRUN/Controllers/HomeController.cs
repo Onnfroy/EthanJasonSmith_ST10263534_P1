@@ -1,8 +1,8 @@
+using CLDV_POE_P1.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using TestRUN.Models;
 
-namespace TestRUN.Controllers
+namespace CLDV_POE_P1.Controllers
 {
     public class HomeController : Controller
     {
