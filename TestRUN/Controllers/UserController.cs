@@ -1,30 +1,41 @@
-﻿using CLDV6211_POE_P1.Models;
+﻿using CLDV_POE_P1.Models;
+using CLDV6211_POE_P1.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace CLDV6211_POE_P1.Controllers
 {
     public class UserController : Controller
     {
-        private static string con_string = "Server=tcp:cldv-froy.database.windows.net,1433;Initial Catalog=onnfroy;Persist Security Info=False;User ID=onnfroy;Password=Lospolos1738;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        private static SqlConnection con = new SqlConnection(con_string);
+        private readonly ApplicationDbContext _context;
 
-        public IActionResult Index()
+        public UserController(ApplicationDbContext context)
         {
-            return View();
+            _context = context;
         }
 
-        public IActionResult ContactUs()
+        public async Task<IActionResult> Index()
+        {
+            var users = await _context.UserTables.ToListAsync();
+            return View(users);
+        }
+
+        public IActionResult Contactus()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult User(UserTable Users)
+        public async Task<IActionResult> User(UserTable user)
         {
-            int result = insert_User(Users);
-
-            return RedirectToAction("Index", "Home");
+            if (ModelState.IsValid)
+            {
+                _context.UserTables.Add(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "Home");
+            }
+            return View(user);
         }
 
         [HttpGet]
@@ -32,32 +43,10 @@ namespace CLDV6211_POE_P1.Controllers
         {
             UserTable model = new UserTable();
             return View(model);
-
-        }
-        private int insert_User(UserTable n)
-        {
-            using (SqlConnection con = new SqlConnection(con_string))
-            {
-                string sql = "INSERT INTO UserTable (userName, userSurname, userEmail) VALUES (@Name, @Surname, @Email); SELECT SCOPE_IDENTITY();";
-                using (SqlCommand cmd = new SqlCommand(sql, con))
-                {
-                    cmd.Parameters.AddWithValue("@Name", n.Name);
-                    cmd.Parameters.AddWithValue("@Surname", n.Surname);
-                    cmd.Parameters.AddWithValue("@Email", n.Email);
-                    con.Open();
-                    object result = cmd.ExecuteScalar();
-
-                    //Check result is DBNull.Value
-                    int usersID = result == DBNull.Value ? -1 : Convert.ToInt32(result);
-
-                    return usersID;
-
-                }
-
-            }
         }
     }
 }
+
 
 
 

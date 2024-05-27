@@ -8,6 +8,7 @@ namespace CLDV6211_POE_P1.Controllers
         {
             return View();
         }
+
         public IActionResult About()
         {
             return View("/Views/About/About.cshtml");
